@@ -52,7 +52,7 @@
         </script>
     </head>
     <body>
-        <!-- Fixed navbar -->
+         <!-- Fixed navbar -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -83,9 +83,8 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="../navbar/">Default</a></li>
-                        <li><a href="../navbar-static-top/">Static top</a></li>
-                        <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+                        <li><a href="/post">New Post</a></li>
+                        <li class="active"><a href="/logout">Logout <span class="sr-only">(current)</span></a></li>
                     </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -116,23 +115,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary pull-right">Post</button>
                                 </form>
-                                <form class="form-inline logincomment" action="/logincomment" method="post">
-                                    <input type="hidden" name="postId" value="<%= posts[i]._id %>">
-                                    <div class="form-group">
-                                        <label class="sr-only" for="username">Username or Email</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Username or Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="comment">Password</label>
-                                        <input type="text" class="form-control" id="comment" name="comment" size="80" placeholder="Comment">
-                                        <span id="error2" class="text-warning"></span>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary pull-right">Login & Post</button>
-                                </form>
+                                
                                 <h5>Comments</h5>
                                 <ul class="list-group">
                                     <% var comments = posts[i].comments; %>
