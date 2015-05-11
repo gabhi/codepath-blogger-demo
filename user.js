@@ -16,7 +16,7 @@ userSchema.methods.generateHash = async function(password) {
 
 userSchema.methods.validatePassword = async function(password) {
 //  return await bcrypt.promise.compare(password, this.password)
-  return await  password === this.password
+  return  password === this.password
 
 }
 

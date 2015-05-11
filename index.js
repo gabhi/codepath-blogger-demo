@@ -24,16 +24,18 @@ app.use(cookieParser('ilovethenodejs'))
 
 // Get POST/PUT body information (e.g., from html forms)
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
 // Use ejs for templating
 app.set('view engine', 'ejs')
 
 // In-memory session support, required by passport.session()
 app.use(session({
-  secret: 'ilovethenodejs',
-  resave: true,
-  saveUninitialized: true
+    secret: 'ilovethenodejs',
+    resave: true,
+    saveUninitialized: true
 }))
 
 // Use the passport middleware to enable passport
@@ -48,6 +50,6 @@ passportMiddleware(app)
 routes(app)
 
 // connect to database
-mongoose.connect('mongodb://127.0.0.1:27017/authenticator')
+mongoose.connect('mongodb://127.0.0.1:27017/blogger-demo')
 // start server
-app.listen(PORT, ()=> console.log(`Listening @ http://127.0.0.1:${PORT}`))
+app.listen(PORT, () => console.log(`Listening @ http://127.0.0.1:${PORT}`))

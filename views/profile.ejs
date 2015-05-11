@@ -1,39 +1,137 @@
 <!doctype html>
 <html>
-<head>
-    <title>Authenticator</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
+    <head>
+        <title>Blogger</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <style>
         body         { padding-top:80px; word-wrap:break-word; }
-    </style>
-</head>
-<body>
-<div class="container">
-
-    <div class="page-header text-center">
-        <h1><span class="fa fa-user"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
-
-    <% if (typeof message !== 'undefined' && message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
-
-    <div class="row">
-
-        <!-- LOCAL INFORMATION -->
-        <div class="well">
-            <h3><span class="fa fa-laptop"></span> Local</h3>
-
-                <p>
-                    <strong>id</strong>: NOT IMPLEMENTED<br>
-                    <strong>email</strong>: NOT IMPLEMENTED<br>
-                    <strong>password</strong>: NOT IMPLEMENTED
-                </p>
-                
-        </div>
-
-</div>
-</body>
-</html>
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+        $('.btn.update').on('click', function(e) {
+        var postId = $(e.target).data('id')
+        window.location = `/post/${postId}`
+        });
+        $('.btn.delete').on('click', function(e) {
+        var postId = $(e.target).data('id')
+        $.ajax({
+        url: `/post/${postId}`,
+        method: 'DELETE'
+        }).done(function() {
+        window.location.reload()
+        });
+        });
+        });
+        </script>
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">WM Blog</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/post">New Post</a></li>
+                        <li class="active"><a href="/logout">Logout <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+            <div class="container">
+                <div class="page-header text-center">
+                    <h1><span class="fa fa-user"></span> Profile Page</h1>
+                </div>
+                <% if (typeof message !== 'undefined' && message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+                <% } %>
+                <div class="row">
+                    <!-- LOCAL INFORMATION -->
+                    <div class="well">
+                        <h3><span class="fa fa-laptop"></span> Local</h3>
+                        <p>
+                            <strong>Id</strong>: <%= user.id %><br>
+                            <strong>Username</strong>: <%= user.username %><br>
+                            <strong>Email</strong>: <%= user.email %><br>
+                            
+                            <strong>Blog Title</strong>: <%= user.blogTitle %><br>
+                            <strong>Blog Description</strong>: <%= user.blogDescription %>
+                        </p>
+                        
+                    </div>
+                    <div class="row"> <strong>Posts</strong></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Create Date</th>
+                                <th>Update Date</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                                <th>Total Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (var i=0; i<posts.length; i++) { %>
+                                <tr>
+                                    <td><%= posts[i].title %></td>
+                                    <td><%= posts[i].created.toLocaleDateString() %></td>
+                                    <td> <%= posts[i].updated.toLocaleDateString() %></td>
+                                    <td><button type="button" data-id="<%= posts[i]._id %>" class="btn btn-default btn-sm update"><i class="fa fa-pencil"></i> Update</button></td>
+                                    <td><button type="button" data-id="<%= posts[i]._id %>" class="btn btn-default btn-sm delete"><i class="fa fa-trash-o"></i>
+                                    Delete</button></td>
+                                    <td><%= posts[i].comments.length %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                        <div class="row"> <strong>Latest Comments</strong></div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Content</th>
+                                    <th>Comment Date</th>
+                                    <th>Link to Post</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% comments.forEach(function(comment) { %>
+                                <tr>
+                                    <td><%= comment.username %></span></td>
+                                    <td><%= comment.content %></td>
+                                    <td><%= comment.created.toLocaleDateString() %></td>
+                                    <td><a href="<%= comment.postLink %>">Post Detail</a> </td>
+                                </tr>
+                                <% }); %>
+                            </tbody></table>
+                            
+                        </div>
+                    </body>
+                </html>

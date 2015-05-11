@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Blogger</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <style>
+        body         { padding-top:80px; word-wrap:break-word; }
+        .hide {
+        display: none;
+        }
+        span.postTitle, span.user{
+        font-weight: bold;
+        }
+        </style>
+        <script>
+        $(document).ready(function(){
+        $('#error1, #error2').addClass('hide');
+        $( "form.comment" ).submit(function( event ) {
+        var formData = $(this).serialize()
+        $.ajax({
+        url: "/comment",
+        method: 'POST',
+        data: formData,
+        success: function(data, textStatus, jqXHR) {
+        if (data) {
+        $('#error1').removeClass('hide');
+        } else {
+        window.location.reload()
+        }
+        }
+        });
+        event.preventDefault();
+        });
+        $( "form.logincomment" ).submit(function( event ) {
+        var formData = $(this).serialize()
+        $.ajax({
+        url: "/logincomment",
+        method: 'POST',
+        data: formData,
+        success: function(data, textStatus, jqXHR) {
+        window.location.reload()
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        $('#error2').removeClass('hide').text(errorThrown)
+        }
+        });
+        event.preventDefault();
+        });
+        });
+        </script>
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">WM Blog</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../navbar/">Default</a></li>
+                        <li><a href="../navbar-static-top/">Static top</a></li>
+                        <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+            
+            <div class="container">
+                <div class="page-header text-center">
+                    <h1><span class="fa fa-user"></span> Blog Page</h1>
+                </div>
+                <% if (typeof message !== 'undefined' && message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+                <% } %>
+                <div class="row">
+                    <ul class="list-group">
+                        <% for (var i=0; i<posts.length; i++) { %>
+                            <li class="list-group-item list-group-item-text">
+                                <span class="postTitle"><%= posts[i].title %></span>: <%= posts[i].content %>
+                                <% if (posts[i].image && posts[i].image.data) { %>
+                                <img src="<%= posts[i].imageData %>" alt="image" style="height: 30px; width: 30px"/>
+                                <% } %>
+                                <h5>Create Comment here:</h5>
+                                <form class="form-inline comment" action="/comment" method="post" >
+                                    <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="comment">Password</label>
+                                        <input type="text" class="form-control" id="comment" name="comment" size="80" placeholder="Comment">
+                                        <span id="error1" class="text-warning">Comment Post failed! Login is required.  Please use the Login & Post option.</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary pull-right">Post</button>
+                                </form>
+                                <form class="form-inline logincomment" action="/logincomment" method="post">
+                                    <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="username">Username or Email</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Username or Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="comment">Password</label>
+                                        <input type="text" class="form-control" id="comment" name="comment" size="80" placeholder="Comment">
+                                        <span id="error2" class="text-warning"></span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary pull-right">Login & Post</button>
+                                </form>
+                                <h5>Comments</h5>
+                                <ul class="list-group">
+                                    <% var comments = posts[i].comments; %>
+                                    <% comments.forEach(function(comment) { %>
+                                    <li class="list-group-item list-group-item-text">
+                                        <span class="user"><%= comment.username %></span>: <%= comment.content %>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </body>
+            </html>

@@ -1,48 +1,21 @@
 <!doctype html>
 <html>
-<head>
-    <title>Authenticator</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
+    <head>
+        <title>Blogger</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <style>
         body         { padding-top:80px; }
-    </style>
-</head>
-<body>
-<div class="container">
-<div class="col-sm-6 col-sm-offset-3">
-
-    <h1><span class="fa fa-sign-in"></span> Authenticator</h1>
-
-    <% if (typeof message !== 'undefined' && message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
-
-    <!-- LOGIN FORM -->
-    <form id="loginForm" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron text-center">
+                <h1><span class="fa fa-lock"></span> Blogger</h1>
+                <p>Login or Signup</p>
+                <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+                <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-
-        <button type="submit" class="btn btn-warning btn-lg" name="login" onclick="submitForm('/login')">Login</button>
-        <button type="submit" class="btn btn-warning btn-lg" name="signup" onclick="submitForm('/signup')">Signup</button>
-    </form>
-
-    <hr>
-
-</div>
-</div>
-<script>
-    function submitForm(action)
-    {
-        document.getElementById('loginForm').action = action
-        document.getElementById('loginForm').submit()
-    }
-</script>
-</body>
+    </body>
 </html>

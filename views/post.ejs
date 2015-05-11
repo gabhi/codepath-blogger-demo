@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Blogger</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <style>
+        body         { padding-top:80px; }
+        </style>
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">WM Blog</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/post">New Post</a></li>
+                        <li class="active"><a href="/logout">Logout <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+            
+            <div class="container">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h1><span class="fa fa-sign-in"></span> <%= verb %> Post</h1>
+                     <% if (typeof message !== 'undefined' && message.length > 0) { %>
+                    <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+                    <form action="/post/<%= post.id %>" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title" value="<%=post.title%>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <input type="text" class="form-control" name="content" value="<%=post.content %>">
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <% if (post.image && post.image.data) { %>
+                            <img src="<%= image %>" alt="image" style="height: 200px; width: 200px"/>
+                            <% } %>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-lg"><%= verb %> Post</button>
+                    </form>
+                </div>
+            </div>
+        </body>
+    </html>
