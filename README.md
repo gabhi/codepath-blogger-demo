@@ -9,13 +9,13 @@ Time spent: `10 hours`
 #### Required
 
 #####Signup
-- [done] User can Signup, Login and Logout with input validation
-- [done] Session and user accounts are persisted in a data store
-- [done] User can create and edit a blog post
-- [done] User can view blog posts with details on their Profile
-- [done] User can comments on their blog posts on their Profile
-- [done] User can view a anyone's blog with posts and comments at the specified url
-- [done] Logged In users can comment on any blog post
+- [x] User can Signup, Login and Logout with input validation
+- [x] Session and user accounts are persisted in a data store
+- [x] User can create and edit a blog post
+- [x] User can view blog posts with details on their Profile
+- [x] User can comments on their blog posts on their Profile
+- [x] User can view a anyone's blog with posts and comments at the specified url
+- [x] Logged In users can comment on any blog post
 
 
 ### Walkthrough 
