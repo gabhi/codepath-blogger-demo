@@ -1,1 +1,2 @@
-# codepath-blogger-demo
+# nodejs-authenticator-demo
+An authentication demo using passport
