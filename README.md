@@ -20,3 +20,4 @@ Time spent: `10 hours`
 
 ### Walkthrough 
 
+![Video Walkthrough](https://github.com/gabhi/codepath-blogger-demo/blob/master/codepath-dropbox.gif)
